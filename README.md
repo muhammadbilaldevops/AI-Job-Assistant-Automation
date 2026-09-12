@@ -4,6 +4,8 @@
 
 It is not a job board. It starts empty and does not display invented vacancies. It does not claim to scrape Indeed, connect to an Indeed account, or submit applications automatically.
 
+**Live personal edition:** https://ai-job-assistant-automation.vercel.app
+
 ## What works
 
 - Open focused Indeed Pakistan searches for DevOps, cloud and AI/ML roles in Islamabad, Rawalpindi and remote work.

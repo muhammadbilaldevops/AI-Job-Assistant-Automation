@@ -17,7 +17,11 @@ Run `npm run check` and `npm test` for the current result. The test report in th
 
 ## Browser verification
 
-The local workspace was opened successfully through the supported browser connection. Further UI and deployment checks are recorded with the release result. Early development examples were removed after the user clarified that the app must contain only real input; the final public app starts empty.
+The local workspace was opened successfully through the supported browser connection. Desktop layout and the real Indeed search links were inspected; the initial narrow browser view also rendered the responsive layout. Early development examples were removed after the user clarified that the app must contain only real input; the final public app starts empty.
+
+Optional browser-agent tools registered successfully. Search-planner navigation and empty saved-job read-back returned the expected results; an invalid script URL was rejected without adding a record. A successful real-listing save through this optional tool was not exercised because no complete user-supplied real description was available. Its shared merge logic is covered by the unit tests.
+
+Initial GitHub CI run 34714720615 passed. Vercel reported production deployment dpl_JDewL7qa1cTAuTTdLqWxi2T15xeJ READY, and an unauthenticated request to https://ai-job-assistant-automation.vercel.app returned HTTP 200. Later source revisions trigger the linked Git deployment automatically.
 
 ## Integration status
 

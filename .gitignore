@@ -11,3 +11,4 @@ work/
 
 .vercel
 .env*
+!.env.example
