@@ -1,0 +1,442 @@
+MASTER PROMPT — JOB-SPECIFIC RESUME OPTIMIZATION
+
+I will provide you with a JOB TITLE and JOB DESCRIPTION. Your task is to create a highly targeted resume section specifically for that vacancy.
+
+IMPORTANT:
+Do not give me generic resume content.
+Do not simply rewrite or copy the job description.
+Do not use complicated or overly formal English.
+Do not invent unrealistic responsibilities, achievements, tools, certifications, employers, or experience that are not reasonable for the candidate.
+Do not claim that I have skills or experience that clearly conflict with the information available in the conversation.
+Use the job description to identify the employer's real priorities and then connect my relevant skills and experience to those priorities.
+
+Your goal is to make the resume look like it was written specifically for this company and this vacancy.
+
+==================================================
+1. PROFESSIONAL SUMMARY
+==================================================
+
+Write ONLY TWO PARAGRAPHS.
+
+The Professional Summary must be based on research about the company whenever the company name is available.
+
+You MUST research the company online before writing the summary.
+
+Research:
+• What the company actually does
+• Its products/services/business model
+• Its industry
+• Its customers or market where relevant
+• Its major business priorities
+• The main operational or role-related challenges/pain points that are reasonably connected to the vacancy
+• What the company would likely value from someone in this position
+
+Do not give me a generic description of the company.
+Do not invent secret or unsupported internal problems.
+Pain points should be realistic and clearly connected to the company's business and the supplied job description.
+
+PARAGRAPH 1 — COMPANY + PAIN POINTS
+
+Start naturally with:
+
+"After researching "[Company Name]"..."
+
+The company name must be:
+BOLD ONLY
+
+Do NOT italicize the company name.
+
+Immediately after mentioning the company, explain what the company does and its important business priorities.
+
+The FIRST important sentence or key statement after the company name must be:
+BOLD + ITALIC
+
+Then explain the most relevant business/role challenges.
+
+Focus on approximately 2–4 important pain points rather than listing everything.
+
+Examples of pain points:
+• slow processes
+• inaccurate data
+• poor follow-up
+• manual work
+• quality issues
+• customer retention
+• lead generation
+• recruitment delays
+• weak reporting
+• poor coordination
+• operational inefficiency
+• software defects
+• delayed feedback
+• inventory problems
+• compliance issues
+• performance gaps
+• high workload
+• customer experience issues
+
+Only use pain points that make sense for the company and the role.
+
+PARAGRAPH 2 — HOW I WILL HELP
+
+Start with:
+
+"As a [Job Title], I will help address these challenges by..."
+
+This ENTIRE opening sentence must be:
+BOLD + ITALIC
+
+Then explain clearly and naturally:
+
+• what I will do
+• what problems I will help solve
+• what processes I will improve
+• what tools/skills I will use
+• how my work will support the team
+• what business result I will contribute toward
+
+The paragraph should sound like a real candidate explaining how they can contribute.
+
+Do NOT write exaggerated claims such as:
+"I will transform the company"
+"I will guarantee 100% success"
+"I will increase revenue by 50%"
+
+Use realistic language such as:
+• help improve
+• support
+• reduce delays
+• improve accuracy
+• keep processes organized
+• identify issues early
+• support better decisions
+• improve customer experience
+• maintain reliable records
+• help the team meet deadlines
+
+The language must be SIMPLE, NATURAL, HUMAN, and PROFESSIONAL.
+
+Avoid typical AI-sounding phrases such as:
+"results-driven professional"
+"dynamic individual"
+"passionate professional"
+"proven track record"
+"leverage my expertise"
+"synergize"
+"robust"
+"seamless"
+"multifaceted"
+unless genuinely necessary.
+
+The summary should feel like:
+"I researched your company, I understand what is important to you, I understand where the job can face problems, and here is how I can help."
+
+==================================================
+2. PROFESSIONAL SUMMARY FORMATTING
+==================================================
+
+Use this exact visual emphasis style:
+
+Heading:
+PROFESSIONAL SUMMARY
+
+Normal body text:
+10 pt style
+
+Important emphasized text:
+11 pt style equivalent
+
+Company name:
+BOLD ONLY
+
+First important/key sentence in Paragraph 1:
+BOLD + ITALIC
+
+Opening sentence of Paragraph 2:
+BOLD + ITALIC
+
+Do NOT make the complete summary bold.
+
+Do NOT italicize the company name.
+
+Example:
+
+After researching **"Company Name"**, ***I understand that the company ...*** The company...
+
+***As a Job Title, I will help address these challenges by...*** I will...
+
+The actual final answer can use Markdown bold and italics to represent this formatting.
+
+==================================================
+3. TECHNICAL SKILLS
+==================================================
+
+After the Professional Summary, create:
+
+TECHNICAL SKILLS
+
+Provide ONLY 5–6 skills/categories.
+
+Never provide 8, 10, 12 or more skills.
+
+Each skill must be highly relevant to the job description.
+
+Use this format:
+
+• **Skill Category:** Specific skills/tools/tasks.
+
+Examples:
+
+• **Recruitment & Talent Sourcing:** Candidate sourcing, screening, LinkedIn, job portals, pipeline management and follow-ups.
+
+• **Microsoft Excel & Reporting:** Spreadsheets, formulas, data tracking, reporting, dashboards and data analysis.
+
+Do not include irrelevant skills merely to make the section longer.
+
+Prioritize the employer's most important requirements.
+
+Use the exact technology/tool names from the job description when appropriate, but do not falsely claim advanced expertise.
+
+==================================================
+4. EXPERIENCE
+==================================================
+
+Create ONE highly relevant experience entry.
+
+Use a realistic job title related to the vacancy.
+
+Format:
+
+EXPERIENCE
+
+**[Relevant Job Title]** | **[Company Name]**                                      *[Month Year – Month Year]*
+
+Then provide a MAXIMUM OF 5 bullet points.
+
+Use the symbol:
+
+▸
+
+Each bullet should be concise, professional and action-oriented.
+
+The experience must be tailored to the target position.
+
+Translate the candidate's relevant previous work into responsibilities that demonstrate transferable skills for the target vacancy.
+
+For example:
+• Recruitment job → HR/Operations/Marketplace/Customer roles
+• Computer Operator → Administrative/Desk Officer roles
+• Accounts Assistant → Accounts/Credit/Finance roles
+• QA Engineer → Software QA/Test roles
+• Sales → Marketing/Business Development/Customer roles
+
+Do not copy the job description line by line.
+
+Do not repeat the same idea in different bullets.
+
+Each bullet should ideally show one of:
+• responsibility
+• technical skill
+• coordination
+• problem solving
+• accuracy
+• reporting
+• customer interaction
+• performance
+• process improvement
+• business support
+
+Keep bullets realistic.
+
+==================================================
+5. JOB DESCRIPTION ANALYSIS
+==================================================
+
+Before writing the resume content, internally identify:
+
+A. Top 5 requirements
+B. Top 5 responsibilities
+C. Important tools/software
+D. Important soft skills
+E. Business pain points
+F. What the hiring manager most likely wants to see
+G. Keywords useful for ATS screening
+
+Then use these findings to create the final resume.
+
+Do not show this analysis unless I ask for it.
+
+==================================================
+6. COMPANY RESEARCH RULES
+==================================================
+
+When a company is provided:
+
+Research the company online using reliable and current sources.
+
+Prefer:
+• Official company website
+• Official company careers page
+• Official LinkedIn/company profile
+• Annual reports
+• Official press releases
+• Reliable business publications
+
+Do not rely entirely on job-board summaries.
+
+Use research to understand:
+• business model
+• services/products
+• market
+• current direction
+• role relevance
+• realistic pain points
+
+Do not manufacture company facts.
+
+If reliable information about the company cannot be verified, say so internally and keep the company description conservative rather than inventing details.
+
+==================================================
+7. JOB-SPECIFIC LANGUAGE
+==================================================
+
+Use keywords naturally from the job description.
+
+For ATS compatibility, include relevant terms such as:
+• tools
+• systems
+• technical skills
+• reporting
+• coordination
+• customer service
+• data
+• KPIs
+• compliance
+• testing
+• recruiting
+• sales
+• operations
+etc.
+
+But do NOT keyword-stuff.
+
+The resume should still sound natural to a human recruiter.
+
+==================================================
+8. WRITING STYLE
+==================================================
+
+Use:
+• Simple English
+• Natural English
+• Beginner/intermediate English level
+• Professional tone
+• Clear sentences
+• Direct language
+• Human wording
+• Short to medium sentences
+• Strong but realistic language
+
+Avoid:
+• unnecessary corporate jargon
+• overly complex vocabulary
+• long sentences
+• fake achievements
+• exaggerated claims
+• repetitive phrases
+• generic career objectives
+• obvious AI language
+
+The recruiter should feel:
+"This candidate understands our company and understands what this role needs."
+
+==================================================
+9. EXPERIENCE TRUTHFULNESS
+==================================================
+
+The candidate has real prior work experience.
+
+Write the experience in a way that is highly relevant to the target vacancy while staying believable.
+
+You may emphasize transferable responsibilities and skills that naturally connect to the new job.
+
+Do NOT fabricate:
+• companies
+• degrees
+• certifications
+• years of experience
+• software expertise
+• management level
+• achievements
+• projects
+• numerical results
+
+If placeholders are necessary, use:
+[Company Name]
+[Month Year – Month Year]
+
+==================================================
+10. FINAL OUTPUT FORMAT
+==================================================
+
+Return ONLY:
+
+PROFESSIONAL SUMMARY
+
+[2 paragraphs exactly]
+
+TECHNICAL SKILLS
+
+• **Skill 1:** ...
+• **Skill 2:** ...
+• **Skill 3:** ...
+• **Skill 4:** ...
+• **Skill 5:** ...
+• **Skill 6:** ...
+
+EXPERIENCE
+
+**[Relevant Job Title]** | **[Company Name]**        *[Month Year – Month Year]*
+
+▸ ...
+▸ ...
+▸ ...
+▸ ...
+▸ ...
+
+No extra explanation.
+No "Here is your resume."
+No conclusion.
+No cover letter.
+No interview tips.
+
+==================================================
+11. IMPORTANT STYLE RULE
+==================================================
+
+The Professional Summary MUST always follow this exact logic:
+
+PARAGRAPH 1:
+COMPANY → WHAT THEY DO → THEIR BUSINESS PRIORITIES → THEIR ROLE-RELATED PAIN POINTS
+
+PARAGRAPH 2:
+MY ROLE → HOW I WILL HELP → WHAT I WILL DO → WHAT PROBLEMS I WILL REDUCE → BUSINESS VALUE
+
+The summary should be specific enough that it could NOT easily be used for another company.
+
+==================================================
+12. INPUT
+==================================================
+
+I will now provide:
+
+JOB TITLE:
+[Insert job title]
+
+COMPANY:
+[Insert company name]
+
+JOB DESCRIPTION:
+[Paste complete job description here]
+
+Use the above instructions and create the final targeted resume sections.

@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.sites-runtime/
+private/
+coverage/
+.vercel/
+*.log
+work/
+
+.vercel
+.env*
