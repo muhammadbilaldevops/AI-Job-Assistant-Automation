@@ -1211,6 +1211,8 @@ li {
   z-index: 99;
   transition: opacity 0.2s;
 }
+.auth-loading { min-height:100vh; display:grid; place-content:center; justify-items:center; gap:14px; color:#6d8064; background:#f7faf4; }
+.auth-loading p { margin:0; font-size:13px; }
 #toast.visible {
   opacity: 1;
 }

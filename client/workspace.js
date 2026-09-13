@@ -23,6 +23,7 @@ let session,
   capabilities = {},
   authMode = "signup",
   filter = "all";
+let booting = true;
 const icons = {
   dashboard: "▦",
   profile: "◎",
@@ -312,6 +313,7 @@ function settings() {
   );
 }
 function render() {
+  if (booting) { root.innerHTML = '<div class="auth-loading"><span class="live-dot"></span><p>Opening your private workspace…</p></div>'; return; }
   if (!session) {
     root.innerHTML = welcome();
     return;
@@ -636,7 +638,7 @@ root.addEventListener("submit", async (ev) => {
           ? await db.auth.signUp({
               email: values.email,
               password: values.password,
-              options: { emailRedirectTo: location.origin },
+              options: { emailRedirectTo: "https://ai-job-assistant-automation.vercel.app/" },
             })
           : await db.auth.signInWithPassword({
               email: values.email,
@@ -805,6 +807,7 @@ async function boot() {
   } catch (err) {
     error = err.message;
   }
+  booting = false;
   render();
   if (session && active()) drive();
 }
