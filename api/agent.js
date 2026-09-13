@@ -193,23 +193,6 @@ export default async function handler(req, res) {
         throw Error(
           "AI writing is not connected yet. Your saved work is safe.",
         );
-      const day = new Date().toISOString().slice(0, 10);
-      const attempts = checked(
-        await db
-          .from("generation_attempts")
-          .select("slot")
-          .eq("user_id", uid)
-          .eq("day", day),
-      );
-      if (attempts.length >= 4)
-        throw Error(
-          "Today’s four writing attempts are used. You can still edit and download your saved documents.",
-        );
-      checked(
-        await db
-          .from("generation_attempts")
-          .insert({ user_id: uid, day, slot: attempts.length }),
-      );
       busy.add(uid);
       try {
         return send(200, {
