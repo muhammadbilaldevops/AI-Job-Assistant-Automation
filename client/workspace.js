@@ -236,7 +236,7 @@ function jobsPage() {
       "OPPORTUNITIES, ORGANIZED",
       "Your saved jobs.",
       "Real listings collected for you. Open a job to see why it matches and prepare your documents.",
-      button("Find more jobs ↗", "start"),
+      button("Find more jobs ↗", "start") + (jobs.length ? button("Remove all saved jobs", "delete-all-jobs", "text-button danger") : ""),
     ) +
     `<div class="filter-bar">${[
       ["all", "All saved"],
@@ -522,6 +522,13 @@ root.addEventListener("click", async (ev) => {
       if (!confirm("Remove this saved job and its generated documents?"))
         return;
       check(await db.from("jobs").delete().eq("id", selected));
+      await load();
+      navigate("jobs");
+    }
+    if (a === "delete-all-jobs") {
+      if (!jobs.length || !confirm(`Remove all ${jobs.length} saved jobs and their generated documents?`)) return;
+      check(await db.from("jobs").delete().neq("id", "00000000-0000-0000-0000-000000000000"));
+      selected = null;
       await load();
       navigate("jobs");
     }
