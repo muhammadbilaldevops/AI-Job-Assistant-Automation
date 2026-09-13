@@ -1,114 +1,199 @@
-# Applydesk beginner guide: from first install to a reviewed application
+# 🧭 Applydesk beginner handbook
 
-This guide explains the complete system in plain language. You can read it without knowing React, databases or automation. Each section tells you what happens, why it exists and where to look in the repository.
+This is the complete, plain-language guide to how Applydesk works from the first browser click to a reviewed application document. It is written for someone who can follow steps but is still learning React, APIs, databases, authentication and automation.
 
-## 1. The complete journey
+![Colorful 3D architecture](architecture-3d.svg)
 
-1. Open the app and sign in with a Supabase Auth account. Authentication creates a private user session; every later request carries that session.
-2. Open **Your story** and upload a PDF, Word document or text resume. The API extracts readable text, safely recognizes common fields, and puts suggestions into the form. You review and correct them before saving.
-3. Open **Job search**. Add titles such as DevOps Intern, Cloud Intern or AI Engineer Intern, choose cities and radius, and decide whether remote work is allowed. Preferences are saved so the next search is repeatable.
-4. Run discovery. Approved public feeds return real listings. The app normalizes titles, dates, locations and source URLs, removes duplicates, and calculates visible match reasons.
-5. For Indeed Pakistan, choose **Browse Indeed with my preferences** or **View original & apply**. A new tab opens the official Indeed page. You sign in there yourself and submit applications yourself. Applydesk never stores Indeed credentials or clicks an authenticated application form.
-6. Save a listing. The saved job keeps the original URL, source, dates, match details, notes and application status. You may edit it, remove one job, or remove all saved jobs.
-7. Select a saved job in **Documents**. Company research is fetched only from bounded public URLs. The job, verified profile facts, research and the complete preserved master prompt are assembled into a structured writing request.
-8. The request goes to the configured Make webhook. Make calls Gemini and returns strict JSON. If no hosted provider is configured, the local Ollama adapter can be used during development.
-9. The client validates the result: no unresolved placeholders, no em dashes, correct sections, truthful facts and the required experience-bullet format. You can edit the draft and save versions.
-10. Download a Word document or Markdown file, or print the Word preview to PDF. Review every claim, then use the official source link to apply.
+## 0. The idea in one minute
 
-## 2. What each technology does
+Applydesk saves a candidate's facts once. It searches approved public job sources, keeps the original link, explains why a role may fit, and prepares a resume or cover letter for that specific job. The candidate reviews every fact and uses the official Indeed page to apply. The system never invents a vacancy, asks for an Indeed password or submits an authenticated application in the background.
 
-### React and Vite (`client/`)
+Think of the product as five connected rooms:
 
-React renders the screens as reusable components. State holds the current profile, search form, selected job and draft. Vite serves the fast development server and creates the production browser bundle. The client should remain a presentation and interaction layer; business rules live in `lib/` so they are testable.
+| 🎯 Room | What happens there |
+| --- | --- |
+| **Your story** | Upload and confirm the facts that describe you |
+| **Job search** | Save titles, cities, radius and remote preferences |
+| **Matches** | Import real listings, rank them and save the useful ones |
+| **Documents** | Generate, edit, validate and download a job-specific document |
+| **Application tracking** | Open the original source, record status and keep notes |
 
-### Vercel (`api/`, deployment)
+## 1. The big picture: who talks to whom
 
-Vercel hosts the static client and runs small serverless handlers. Handlers receive HTTP requests, check the Supabase session, parse files or forward an approved AI request, and return JSON. Environment variables are configured in Vercel, never committed. A push to `main` creates a production deployment through the repository connection.
-
-### Supabase (`supabase/`)
-
-Supabase Auth handles sign-up, confirmation and sign-in. Postgres stores profiles, searches, jobs, documents, research and statuses. Row Level Security makes the database enforce `owner_id = authenticated user`; this is the privacy barrier even if a client request is modified. Private Storage holds uploaded resumes. The edge worker performs server-side discovery for the scheduled Make scenario.
-
-### Make
-
-Make is the visual orchestration layer. The background scenario runs on a schedule, sends a private hashed worker key to the Supabase edge function and lets the worker collect approved feeds. The writing scenario receives one JSON request, calls Gemini, maps the response to the expected fields and returns JSON to Vercel. Make does not decide whether a job matches and does not persist candidate data; the application remains the source of truth.
-
-### Gemini and Ollama
-
-Gemini is the hosted writing model reached through Make. The prompt asks for structured output rather than free-form chat. Ollama is an optional local model path for development when a private, offline draft is preferred. Neither provider is allowed to invent candidate facts; validation and human review remain mandatory.
-
-### PDF, Word and document tooling
-
-`pdfjs-dist` extracts PDF text without requiring a browser worker in the serverless runtime. `mammoth` extracts readable text from `.docx` files while archive-size limits protect the endpoint. The `docx` package builds a real Word document with headings, font sizes, bullets and a true page break for the two-page wrapper. Markdown remains available as a transparent, editable fallback.
-
-## 3. How the data moves
-
-```text
-Sign in → Supabase session → client request with access token
-Upload → Vercel parser → normalized profile suggestions → Supabase row
-Search → public feed/API → normalize + match + dedupe → saved_jobs
-Write → client prompt → Make webhook → Gemini → JSON → validate → document_versions
-Apply → official Indeed/source URL opens in a new tab → user completes final steps
+```mermaid
+flowchart LR
+  U[👤 Candidate browser] --> V[⚡ Vercel React app]
+  V --> A[🔐 Vercel API handlers]
+  A --> S[(🗃️ Supabase Auth + Postgres + Storage)]
+  S --> W[🛰️ Supabase edge worker]
+  W --> F[🌍 Approved public feeds]
+  V --> M[🔁 Make webhook]
+  M --> G[✨ Gemini]
+  G --> M --> V
+  V --> I[🌐 Official Indeed tab]
 ```
 
-The client owns the interaction. Supabase owns private durable data. Vercel is the controlled server boundary. Make is an optional transport and scheduler. This separation makes failures visible: a feed error cannot silently become an invented job, and a writing error cannot overwrite the saved profile.
+### Why there are separate parts
 
-## 4. First local setup
+- **Browser/client:** shows screens, collects clicks and renders results.
+- **Vercel/API:** provides a controlled server boundary for uploads and AI requests.
+- **Supabase:** authenticates people and stores private, durable records.
+- **Edge worker:** performs scheduled feed collection away from the browser.
+- **Make:** connects the worker and AI provider using visual modules.
+- **Gemini/Ollama:** drafts language from supplied facts; it is never the source of truth.
+- **Indeed:** remains an external website where the person performs the final application.
 
-Install Node.js, open the repository, then run:
+Keeping these responsibilities separate means a failed AI call cannot erase a job, and an empty feed cannot become an invented listing.
+
+## 2. Before you start 🧰
+
+You need Node.js, a Supabase project, a Make account and (optionally) a Gemini connection. The free tiers are enough for internal testing with small volumes. Use test data while developing.
 
 ```bash
-npm ci
+npm ci                 # install the exact locked dependencies
 Copy-Item .env.example .env.local
-npm run build
-npm run check
-npm test
-npm start
+npm run build          # create the production bundle
+npm run check          # syntax, required assets and prompt checksum
+npm test               # regression suite
+npm start              # serve the built app locally
 ```
 
-Open the printed local URL. In Supabase, add that URL and the Vercel URL under Authentication → URL Configuration. Create or auto-confirm a test user in Authentication → Users. Use only test data while developing. Never put a service-role key, Make webhook URL, Gemini key or worker key in source control.
+Open the local URL printed by the last command. In Supabase Authentication → URL Configuration, add both the local URL and `https://ai-job-assistant-automation.vercel.app`. Create or auto-confirm one test user under Authentication → Users. Do not place a service-role key, worker secret, Gemini key or Make webhook URL in Git.
 
-## 5. Configure services in the right order
+## 3. Step-by-step user flow 👣
 
-1. Create the Supabase project and apply the migrations in `supabase/migrations`. Confirm RLS policies and the private storage bucket.
-2. Deploy the `job-worker` edge function and set its private worker secret.
-3. In Make, create or connect the HTTP and Gemini connections. Build the writing webhook and background discovery scenarios described in `docs/MAKE-SETUP.md`.
-4. Put only the Make webhook URL in Vercel as `MAKE_AI_WEBHOOK_URL`; redeploy after changing it.
-5. Test one profile, one public listing and one writing request. Check the Make execution history and the Vercel function log if a response fails.
+### Step 1 — Sign in
 
-## 6. Understanding the important folders
+The client asks Supabase Auth for an email/password session. Supabase returns a short-lived access token and refresh token. The client stores the session using the Supabase SDK and attaches the access token to API requests. Database policies then know which `auth.uid()` owns a row. If confirmation email delivery is disabled or rate-limited, create an auto-confirmed internal user in the Supabase dashboard rather than hard-coding credentials in the app.
 
-- `client/`: routes, controls, panels and user-facing error messages.
-- `api/`: authenticated HTTP endpoints and upload/AI adapters.
-- `lib/`: pure parsing, matching, prompt and export rules.
-- `supabase/`: schema, RLS and scheduled worker code.
-- `scripts/`: build and consistency checks.
-- `tests/`: regression tests for edge cases and complete flows.
-- `dist/prompts/`: the source master prompt used by every resume draft.
-- `docs/`: operating guides, release notes, architecture and product decisions.
+### Step 2 — Build **Your story**
 
-Each folder has a short local README. Start with the file that matches the area you are changing, then read the related tests before editing a rule.
+The profile screen has fields for name, contact links, location, field, skills, experience and preferences. You can type them manually or upload a file.
 
-## 7. Common problems and fixes
+#### What happens during upload
 
-**Blank page:** run `npm run build`, inspect the browser console, and confirm the deployed build has the same commit as GitHub. A blank page usually means a bundle/runtime error, not a missing job.
+1. The browser sends the file to the upload API with the active access token.
+2. The API checks the size and MIME type. Word archives are expanded defensively so a zip bomb cannot exhaust the server.
+3. For PDF, `pdfjs-dist/legacy/build/pdf.mjs` reads pages with `disableWorker: true`; this avoids the serverless worker-file error. Cleanup checks whether `destroy()` exists before calling it.
+4. For `.docx`, `mammoth` extracts readable paragraphs. Plain text is read directly.
+5. The parser normalizes whitespace and searches conservative patterns for email, phone, URLs, headings, skills and experience.
+6. Suggestions are returned to the client. “Resume read” means text extraction succeeded; it does not mean every field was guessed safely.
+7. You review and correct suggestions. Only after saving does the profile become the verified fact source for writing.
 
-**Email rate limit or confirmation loop:** wait for the provider limit to reset, use one confirmed test user, and verify redirect URLs. Do not hard-code a password in the application.
+If a name or skill is absent, that field stays empty rather than being invented. Clear headings such as `Skills`, `Experience` and `Education` improve suggestions.
 
-**PDF worker error:** the server uses workerless `pdfjs-dist` configuration and includes the worker asset for Vercel. Reinstall dependencies and redeploy if `node_modules` was copied from an old build.
+### Step 3 — Define a repeatable search 🔎
 
-**AI not connected:** confirm `MAKE_AI_WEBHOOK_URL`, the Make scenario is active, and the webhook returns the documented JSON shape. The saved job and profile remain safe when writing is unavailable.
+In **Job search**, add any number of titles, locations and radii. For example, use DevOps Intern, Cloud Intern and AI Engineer Intern, then Islamabad, Rawalpindi and Remote. Choose whether remote work is allowed and add custom rules for job families or cities. The client validates empty titles and saves the search preferences in a user-owned record.
 
-**Empty profile after upload:** extraction success means text was read, not that every field can be identified. Review the extracted text, use clear headings in the source resume, and correct the suggestions before saving.
+### Step 4 — Discover and understand listings 🌍
 
-**Indeed results missing:** Indeed is intentionally opened as the official website. Use the public-feed collector for automatic discovery and use the Indeed button for manual browsing and applying.
+When discovery runs, the API or edge worker calls only allow-listed public feed destinations. The adapter converts each source shape into one internal shape: title, company, location, description, source URL, posted date, updated date and source evidence. Normalization rejects script URLs and off-source application links. A stable job key prevents duplicates.
 
-## 8. Safe change and release checklist
+The matcher compares the normalized listing with the saved preferences. It separately checks location eligibility, remote wording, experience level and skill overlap. The score is accompanied by strengths and “things to check,” so a transferable role remains visible for human review instead of disappearing below an arbitrary threshold.
 
-Before pushing a change, run `npm run check`, `npm test`, `npm run build` and `git diff --check`. Test both an empty state and a populated state. Verify that an unauthenticated request cannot read another user's row, that source URLs remain intact, and that generated documents contain no placeholders or invented facts. Push to `main`, wait for Vercel to finish, then repeat one browser journey from sign-in through download.
+### Step 5 — Browse Indeed safely 🇵🇰
 
-## 9. What can be extended later
+Click **Browse Indeed with my preferences** to open a new official Indeed Pakistan tab. The app builds a focused search URL from your saved title and location. You sign in to Indeed in that tab and browse or apply manually. Applydesk does not inject scripts into the authenticated site, store cookies, scrape private results or press an Apply button. This is deliberate account safety and keeps the source link verifiable.
 
-New approved job feeds can implement the feed adapter contract. New AI providers can implement the writing adapter without changing the UI. A paid SaaS edition can add teams, billing, quotas and notifications while preserving RLS, private uploads, source attribution and the user-controlled Indeed handoff.
+### Step 6 — Save and manage jobs 💾
 
-The project is complete for internal testing when the checks pass and the user can perform the journey above. Production readiness additionally requires a verified email provider, monitored limits, a privacy policy, backups and a final review of every external site's terms.
+Saving a card writes the normalized job and its match explanation to Supabase. The saved page supports editing notes/status, opening the source, deleting one job and **Remove all saved jobs** with a confirmation. Application status is your own record: discovered, reviewing, ready, applied, interview or closed.
+
+### Step 7 — Research the company 🏢
+
+The company reader accepts bounded public HTTPS pages and blocks private/reserved network destinations. It stores a short, dated research note with its URL. Research is context for a draft, never a replacement for the job description or your verified facts.
+
+### Step 8 — Create a tailored resume or cover letter ✍️
+
+From a saved job, choose **Create tailored resume** or **Create cover letter**. The client assembles a request containing:
+
+```json
+{
+  "prompt": "the unchanged master prompt plus job-specific instructions",
+  "job": "normalized saved listing",
+  "profile": "verified candidate facts",
+  "research": "recent bounded company notes"
+}
+```
+
+The full original prompt is preserved at `dist/prompts/master-resume.txt` and checked by `docs/master-prompt.sha256`. The cover-letter prompt is separate so resume structure rules do not leak into a letter.
+
+### Step 9 — How Make writes the draft 🔁
+
+1. Vercel posts the JSON request to the private `MAKE_AI_WEBHOOK_URL`.
+2. Make's webhook receives the request and passes `prompt` into the Gemini module.
+3. Gemini drafts only from the supplied job, profile and research context.
+4. Make maps the model candidate text into the response JSON contract.
+5. Vercel returns the result to the browser.
+6. The client validates it before showing Save or Download as complete.
+
+If the webhook is offline, the saved job and profile remain safe. Local development may use Ollama as an alternative adapter.
+
+### Step 10 — Validate, edit and export ✅
+
+Validators reject unresolved placeholders, em dashes, unsupported years, invented sections and malformed experience bullets. The resume preset expects one to five experience bullets beginning with `▸`; the cover letter uses simple, natural English. You can edit the draft, save versions with profile/job snapshots, download Word or Markdown, and print the preview to PDF. Review every claim before sending it.
+
+## 4. Make automation: complete setup 🛠️
+
+### Scenario A — Background discovery
+
+1. Deploy the `supabase/functions/job-worker` edge function.
+2. Set its private worker secret in Supabase.
+3. In Make, add a Scheduler module (the internal default is every six hours).
+4. Add an HTTP request module pointing at the worker URL.
+5. Send the hashed worker key and the allowed search configuration.
+6. Map the worker response to a success/error branch.
+7. Activate the scenario and run it once manually.
+8. Confirm the execution writes normalized jobs and preserves source dates.
+
+### Scenario B — AI writing webhook
+
+1. Add a **Custom webhook** module and copy its URL.
+2. Store that URL in Vercel as `MAKE_AI_WEBHOOK_URL` for the correct environment.
+3. Add the official Gemini connection and choose the configured flash model.
+4. Map the incoming `prompt` to Gemini contents.
+5. Keep the response mapping strict JSON and map the candidate text into the expected document fields.
+6. Send one test request from Documents and inspect Make execution history.
+7. Activate the scenario only after the response shape passes the client validator.
+
+Make is the visual transport and scheduler. Matching, deduplication, validation and persistence stay in the application so the behavior remains testable and portable.
+
+## 5. Database and security 🗃️
+
+Supabase Postgres stores profiles, searches, jobs, documents, research and statuses. Each table has an owner relationship. Row Level Security policies compare that owner with `auth.uid()`, meaning a user cannot read another user's row even if they manually change a request. Private Storage keeps original uploads behind the same session. Public environment values identify the project; privileged keys remain server-side.
+
+## 6. API map 🔌
+
+The Vercel handlers are intentionally small: authenticated profile/job persistence, safe upload parsing, bounded company reading, health responses and Make writing requests. Shared functions in `lib/` contain matching, normalization, prompt assembly, validation and DOCX export. This makes the rules run identically in the browser flow and automated tests.
+
+## 7. Deployment 🚀
+
+The GitHub `main` branch is connected to Vercel. A push triggers install, build and production deployment. Configure Supabase URL/key, `MAKE_AI_WEBHOOK_URL`, worker settings and any optional model variables in Vercel Environment Variables. After deployment, verify the auth redirect, one upload, one public listing, one saved job and one document download from the production URL.
+
+## 8. Troubleshooting 🧯
+
+- **Blank page:** run the production build and inspect the browser console; confirm Vercel deployed the same Git commit.
+- **Email rate limit:** wait for the provider window or use one auto-confirmed internal test account.
+- **PDF worker error:** reinstall dependencies and redeploy; the parser is configured workerless and the Vercel asset is included.
+- **`split`, `match` or `destroy` error:** the parser normalizes missing text and checks optional PDF APIs before use. Rebuild to ensure the current bundle is deployed.
+- **Fields remain empty after “Resume read”:** extraction worked, but the source did not expose a safe pattern. Review suggestions and enter missing facts manually.
+- **AI not connected:** check the Vercel webhook variable, active Make scenario, Gemini connection and JSON response shape.
+- **No Indeed jobs in the app:** use public-feed discovery for automatic collection; Indeed is intentionally an official manual browsing handoff.
+
+## 9. Developer checklist 🧪
+
+Before every push:
+
+```bash
+npm run check
+npm test
+npm run build
+git diff --check
+```
+
+Test empty and populated states, a PDF and Word upload, one saved job deletion and the all-jobs confirmation. Confirm that unauthenticated requests cannot read private rows, source URLs remain intact, and generated output contains no placeholders.
+
+## 10. Extending the project 🌱
+
+Add a new feed by implementing the existing adapter shape. Add a new AI provider behind the writing adapter. Add notifications, teams or billing later without removing RLS, private uploads, source attribution or user-controlled Indeed handoff. The architecture is designed so paid SaaS features can grow around a trustworthy free core.
