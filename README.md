@@ -11,9 +11,9 @@
 
 Applydesk is a practical, privacy-first job application workspace. It helps a candidate save career facts once, discover real opportunities, compare each role with preferences, and prepare a tailored resume or cover letter. It is a workbench, not a fictional job board: every listing keeps its source link and the final application stays under the candidate's control.
 
-**Live app:** [ai-job-assistant-automation.vercel.app](https://ai-job-assistant-automation.vercel.app/)
+**Live app:** [ai-job-assistant-automation.vercel.app](https://ai-job-assistant-automation.vercel.app/) 🔥
 
-**Login emial:** admin@gmail.com
+**Login email:** admin@gmail.com 👀
 **password:**    admin123
 
 **Start here if you are new:** [Beginner end-to-end guide](docs/BEGINNER-GUIDE.md)
