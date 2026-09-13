@@ -4,6 +4,8 @@ Applydesk is a practical, privacy-first job application workspace. It helps a ca
 
 **Live app:** [ai-job-assistant-automation.vercel.app](https://ai-job-assistant-automation.vercel.app/)
 
+**Start here if you are new:** [Beginner end-to-end guide](docs/BEGINNER-GUIDE.md)
+
 ![Applydesk architecture](docs/architecture-3d.svg)
 
 ## Why this project exists
