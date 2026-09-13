@@ -1094,7 +1094,7 @@ li {
   min-height: 100vh;
   max-width: 1400px;
   margin: auto;
-  padding: 40px 60px 0;
+  padding: 24px 60px 0;
 }
 .welcome .brand {
   color: #1d593e;
@@ -1102,9 +1102,9 @@ li {
 .welcome-grid {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
-  gap: 90px;
+  gap: 56px;
   align-items: center;
-  padding: 70px 0;
+  padding: 34px 0 28px;
 }
 .welcome h1 {
   font-size: clamp(44px, 5.3vw, 72px);
@@ -1189,7 +1189,7 @@ li {
   padding-left: 5px;
 }
 .welcome footer {
-  padding: 25px 0;
+  padding: 14px 0;
 }
 #toast {
   position: fixed;
@@ -1314,11 +1314,11 @@ li {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .welcome {
-    padding: 30px 30px 0;
+    padding: 22px 30px 0;
   }
   .welcome-grid {
     gap: 35px;
-    padding: 55px 0;
+    padding: 34px 0 25px;
   }
   .welcome h1 {
     font-size: 48px;
