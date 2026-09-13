@@ -784,13 +784,15 @@ root.addEventListener("change", async (ev) => {
       for (const [key, pattern] of [
         [
           "skills",
-          /(?:TECHNICAL SKILLS|SKILLS)\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\n|$)/,
+          /(?:TECHNICAL SKILLS|SKILLS)\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\s*\n|$)/i,
         ],
         [
           "experience",
-          /(?:WORK EXPERIENCE|EXPERIENCE)\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\n|$)/,
+          /(?:WORK EXPERIENCE|EXPERIENCE)\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\s*\n|$)/i,
         ],
-        ["education", /EDUCATION\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\n|$)/],
+        ["education", /EDUCATION\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\s*\n|$)/i],
+        ["projects", /(?:PROJECTS|PERSONAL PROJECTS)\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\s*\n|$)/i],
+        ["certifications", /(?:CERTIFICATIONS|CERTIFICATES)\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\s*\n|$)/i],
       ])
         if (!suggestion[key])
           suggestion[key] = extractedText.match(pattern)?.[1]?.trim() || "";
