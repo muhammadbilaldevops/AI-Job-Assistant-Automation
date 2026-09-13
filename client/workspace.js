@@ -620,7 +620,7 @@ root.addEventListener("click", async (ev) => {
   } catch (err) {
     const message = String(err.message || err);
     error = /rate limit|email rate limit/i.test(message)
-      ? "Email delivery is temporarily rate-limited by Supabase. Wait a few minutes, then use Sign in if this account was already confirmed."
+      ? "Supabase has reached its free confirmation-email limit. Do not retry yet. Wait for the limit to reset, then create the account once, or use Sign in if you already confirmed it."
       : /email not confirmed/i.test(message)
         ? "Confirm your email from the latest message, then use Sign in."
         : message;
