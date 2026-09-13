@@ -249,7 +249,7 @@ export default async function handler(req, res) {
                 .map((i) => i.str+(i.hasEOL?'\n':' '))
                 .join("") + "\n";
         } finally {
-          await pdf.destroy();
+          if (typeof pdf.destroy === "function") await pdf.destroy();
         }
         type = "application/pdf";
       } else if (/\.txt$/i.test(name)) text = bytes.toString("utf8");
