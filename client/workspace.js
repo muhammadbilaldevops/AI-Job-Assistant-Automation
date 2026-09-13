@@ -793,7 +793,7 @@ root.addEventListener("change", async (ev) => {
         ["education", /EDUCATION\s*\n([\s\S]*?)(?=\n[A-Z][A-Z &]{3,}\n|$)/],
       ])
         if (!suggestion[key])
-          suggestion[key] = result.text.match(pattern)?.[1]?.trim() || "";
+          suggestion[key] = extractedText.match(pattern)?.[1]?.trim() || "";
       await api("profile", { profile: suggestion });
       await load();
       toast(
