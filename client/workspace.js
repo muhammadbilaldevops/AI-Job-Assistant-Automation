@@ -24,7 +24,8 @@ let session,
   authMode = "signup",
   filter = "all";
 let booting = true;
-const AUTH_ENABLED = true;
+const AUTH_ENABLED = false;
+const LOCAL_PREVIEW = true;
 const icons = {
   dashboard: "▦",
   profile: "◎",
@@ -810,6 +811,11 @@ async function boot() {
       await load();
       capabilities = await api("status");
       page = profile.confirmed ? "dashboard" : "profile";
+    } else if (LOCAL_PREVIEW) {
+      session = { user: { id: "local-preview", email: "Preview workspace" } };
+      profile = { name: "Preview workspace", preferences: DEFAULT_PREFERENCES };
+      capabilities = { cloud: false, background: false, ai: false };
+      page = "dashboard";
     }
   } catch (err) {
     error = err.message;
