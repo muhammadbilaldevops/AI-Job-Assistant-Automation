@@ -2,6 +2,18 @@
 
 This is the complete, plain-language guide to how Applydesk works from the first browser click to a reviewed application document. It is written for someone who can follow steps but is still learning React, APIs, databases, authentication and automation.
 
+## 🌟 Read this first: the whole project in simple words
+
+Imagine a helpful desk with five drawers. You put your career information in the first drawer once. You tell the desk what jobs and places you want in the second drawer. The desk checks approved public job sources and places useful real listings in the third drawer. You choose one listing in the fourth drawer and the desk prepares a resume or letter using your confirmed facts. The fifth drawer remembers what you reviewed or applied to.
+
+The website is the front door. React draws the screens and buttons. Vercel delivers those screens and receives secure requests. Supabase is the locked filing cabinet: it confirms who you are and stores your profile, jobs and documents. Make is the messenger and clock: it can wake up on a schedule, call the job collector, and carry one writing request from the website to Gemini. Gemini is the drafting assistant. The application checks the draft and you approve it.
+
+Make is not a second website and it is not the database. It is useful because a visual automation can run repeated work without a person keeping a browser tab open. It also lets the project change AI providers later without rewriting the whole website. If Make is switched off, saved work remains available; scheduled discovery and hosted AI writing wait until the connection returns.
+
+### The one complete example
+
+You save “DevOps Intern” and “Islamabad” as preferences. Every six hours, Make asks the Supabase worker to check the approved public feed. The worker returns real listings, the app checks location and skills, and new records are saved. You open a listing and press **Create tailored resume**. The browser sends the job plus your verified profile to Make. Make passes that request to Gemini, receives structured text and returns it. The app checks the rules, shows the draft and lets you download Word. You then open the official Indeed link and apply yourself.
+
 ![Colorful 3D architecture](architecture-3d.svg)
 
 ## 0. The idea in one minute
@@ -135,6 +147,40 @@ If the webhook is offline, the saved job and profile remain safe. Local developm
 Validators reject unresolved placeholders, em dashes, unsupported years, invented sections and malformed experience bullets. The resume preset expects one to five experience bullets beginning with `▸`; the cover letter uses simple, natural English. You can edit the draft, save versions with profile/job snapshots, download Word or Markdown, and print the preview to PDF. Review every claim before sending it.
 
 ## 4. Make automation: complete setup 🛠️
+
+### Why Make is used
+
+Without Make, the browser must stay open for repeated work and the website needs custom code for every AI provider and schedule. Make provides visible boxes with scheduling, service connections, field mapping and execution history. A beginner can inspect each handoff. Make moves messages between services; the application remains responsible for truth, privacy, matching and document quality.
+
+| Job | Starts when | Make does | The application does |
+| --- | --- | --- | --- |
+| 🔎 Background discovery | Six-hour schedule | Calls the Supabase worker with a private key | Validates feeds, matches, deduplicates and stores jobs |
+| ✨ AI writing | Documents button | Sends the structured prompt to Gemini and maps JSON | Supplies verified facts, validates and saves the draft |
+
+### Background discovery, step by step
+
+1. Make's scheduler wakes up, so no browser tab is required.
+2. Its HTTP module calls the Supabase `job-worker` endpoint with the protected worker key.
+3. The edge function checks the key, calls allow-listed public feeds and receives source records.
+4. The worker normalizes each record into the common job shape.
+5. Supabase stores new jobs; a stable key prevents duplicates.
+6. The worker returns counts and errors, and Make records the execution.
+7. When the user opens Job search, the client reads the newest owner-scoped jobs and calculates match explanations.
+
+### AI writing, step by step
+
+1. The user selects a saved job and clicks resume or cover letter.
+2. The client combines the job, confirmed profile, research and preserved master prompt.
+3. Vercel posts one JSON request to the private `MAKE_AI_WEBHOOK_URL`.
+4. Make maps the `prompt` field into Gemini contents.
+5. Gemini drafts only from the supplied context.
+6. Make maps the model candidate into the response JSON contract and returns it.
+7. The client rejects placeholders, unsupported claims, em dashes and wrong structure.
+8. The user edits, confirms, saves and downloads the document.
+
+### How to prove Make is connected
+
+Run the discovery scenario once manually and confirm a worker response. Then create one document from a saved job and confirm a successful webhook execution, valid JSON and a draft in the browser. If a test fails, check the connection, URL, request body and response mapping in that order. Never put a secret in a screenshot or GitHub.
 
 ### Scenario A — Background discovery
 
