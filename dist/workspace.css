@@ -1165,6 +1165,10 @@ li {
   font-size: 25px;
   margin-top: 23px;
 }
+.auth-paused { max-width:700px; margin:14vh auto 0; padding:56px; text-align:center; border:1px solid #dfe8d4; border-radius:24px; background:#fff; box-shadow:0 20px 60px #5573420a; }
+.auth-paused h1 { margin:24px 0 16px; color:#264f36; font-size:clamp(42px,6vw,76px); letter-spacing:-3px; line-height:1.03; }
+.auth-paused h1 em { font-family:Georgia,serif; font-weight:500; color:#73955a; }
+.auth-paused p { max-width:440px; margin:auto; line-height:1.8; color:#6b8068; }
 .auth-modes { display:flex; gap:8px; margin:22px 0 4px; padding:4px; background:#f0f4eb; border-radius:10px; }
 .auth-mode { flex:1; border:0; border-radius:7px; padding:11px 8px; background:transparent; color:#6d8064; font:600 12px inherit; cursor:pointer; }
 .auth-mode.selected { background:#fff; color:#1d593e; box-shadow:0 2px 8px #315c3014; }
