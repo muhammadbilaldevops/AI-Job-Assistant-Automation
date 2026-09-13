@@ -237,6 +237,7 @@ export default async function handler(req, res) {
         const pdf = await pdfjs.getDocument({
           data: new Uint8Array(bytes),
           isEvalSupported: false,
+          disableWorker: true,
           useSystemFonts: true,
         }).promise;
         try {
