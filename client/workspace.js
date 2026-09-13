@@ -24,8 +24,8 @@ let session,
   authMode = "signup",
   filter = "all";
 let booting = true;
-const AUTH_ENABLED = false;
-const LOCAL_PREVIEW = true;
+const AUTH_ENABLED = true;
+const LOCAL_PREVIEW = false;
 const icons = {
   dashboard: "▦",
   profile: "◎",
