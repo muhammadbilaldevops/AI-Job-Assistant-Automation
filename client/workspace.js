@@ -67,6 +67,7 @@ const check = (r) => {
 };
 async function api(action, body = {}) {
   const { data } = await db.auth.getSession();
+  if (!data.session && LOCAL_PREVIEW) return {};
   if (!data.session) throw Error("Sign in to continue.");
   const r = await fetch("/api/agent", {
     method: "POST",
@@ -85,6 +86,7 @@ async function api(action, body = {}) {
   return j;
 }
 async function load() {
+  if (LOCAL_PREVIEW && session?.user?.id === "local-preview") return;
   const result = await Promise.all([
     db.from("user_profiles").select("data").maybeSingle(),
     db
