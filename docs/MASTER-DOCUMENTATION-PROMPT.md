@@ -32,7 +32,7 @@ Cover all real features, including authentication, profiles, uploads, PDF/Word p
 
 ## 3D architecture
 
-Create or update `docs/architecture-3d.svg`. It must be full color, isometric or 3D-looking, readable, accessible, GitHub-compatible and repository-owned. Show the user, browser, frontend, deployment platform, API, authentication, database, storage, worker, automation platform, AI provider and external APIs or websites. Add a title and description to the SVG. Embed it in both README files.
+Create or update `docs/architecture-3d.svg`. It must be full color, isometric or 3D-looking, readable, accessible, GitHub-compatible and repository-owned. Show the user, browser, frontend, deployment platform, API, authentication, database, storage, worker, automation platform, AI provider and external APIs or websites. Add a title and description to the SVG. Embed it in both README files. Also must ensure to add the mermaid 3d architecture in every technology and feature for better understating of everything so must remember and ensure this. 
 
 Also include a Mermaid flow such as:
 
