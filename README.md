@@ -1,5 +1,7 @@
 # AI Job Assistant Automation
 
+> **Version 0.3 supersedes the historical v0.2 notes below.** Read the [current release guide](docs/RELEASE-0.3.md) and [transformation audit and plan](docs/TRANSFORMATION-AUDIT.md). The app now has Supabase accounts, private uploads, real remote-job discovery and a separate background worker. Hosted AI writing remains pending its Gemini connection. Local setup now requires `npm ci` and `npm run build` before `npm start`.
+
 **Applydesk** is a personal workbench for real job applications, built around Indeed Pakistan searches, verified candidate facts, a preserved resume-writing preset and optional Make automation.
 
 It is not a job board. It starts empty and does not display invented vacancies. It does not claim to scrape Indeed, connect to an Indeed account, or submit applications automatically.

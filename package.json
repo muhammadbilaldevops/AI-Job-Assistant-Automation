@@ -1,9 +1,22 @@
 {
   "name": "ai-job-assistant-automation",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
-  "description": "A local-first job search workspace with an exact resume preset and optional Make and Ollama adapters.",
-  "scripts": { "start": "node --env-file-if-exists=.env server.mjs", "test": "node --test tests/*.test.mjs", "check": "node scripts/check.mjs" },
-  "engines": { "node": ">=22" }
+  "description": "A private career workspace with real job discovery, persistent search agents and tailored application documents.",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.116.0",
+    "esbuild": "0.28.2",
+    "mammoth": "1.12.3",
+    "pdfjs-dist": "6.3.289"
+  }
 }

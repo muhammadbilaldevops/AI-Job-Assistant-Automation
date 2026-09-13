@@ -15,7 +15,7 @@ const MIME = {
   ".json": "application/json",
 };
 const csp =
-  "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
+  "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://jssiavybtgomzqzhuhcj.supabase.co wss://jssiavybtgomzqzhuhcj.supabase.co; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
 export function feedURL(provider, board) {
   if (!/^[A-Za-z0-9_-]{1,100}$/.test(board))
     throw Error("Invalid employer board token.");
@@ -110,6 +110,11 @@ export function createServer() {
         return;
       }
       const url = new URL(req.url, `http://${host}`);
+      if (url.pathname === '/api/agent') {
+        const {default:agentHandler}=await import('./api/agent.js');
+        await agentHandler(req,res);
+        return;
+      }
       if (url.pathname.startsWith("/api/")) {
         if (req.method !== "POST") {
           send(405, { error: "Use POST." });

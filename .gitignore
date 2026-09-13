@@ -5,6 +5,7 @@ node_modules/
 .sites-runtime/
 private/
 coverage/
+supabase/.temp/
 .vercel/
 *.log
 work/

@@ -1,10 +1,11 @@
 {
   "outputDirectory": "dist",
-  "buildCommand": "npm run check",
+  "buildCommand": "npm run build && npm run check",
+  "functions": {"api/agent.js": {"maxDuration": 180}},
   "headers": [{ "source": "/(.*)", "headers": [
     {"key":"X-Content-Type-Options","value":"nosniff"},
     {"key":"Referrer-Policy","value":"no-referrer"},
     {"key":"X-Frame-Options","value":"DENY"},
-    {"key":"Content-Security-Policy","value":"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"}
+    {"key":"Content-Security-Policy","value":"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://jssiavybtgomzqzhuhcj.supabase.co wss://jssiavybtgomzqzhuhcj.supabase.co; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"}
   ]}]
 }
