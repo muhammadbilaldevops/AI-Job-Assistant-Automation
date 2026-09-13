@@ -13,6 +13,9 @@ Applydesk is a practical, privacy-first job application workspace. It helps a ca
 
 **Live app:** [ai-job-assistant-automation.vercel.app](https://ai-job-assistant-automation.vercel.app/)
 
+**Login emial:** admin@gmail.com
+**password:**    admin123
+
 **Start here if you are new:** [Beginner end-to-end guide](docs/BEGINNER-GUIDE.md)
 
 ![Applydesk architecture](docs/architecture-3d.svg)
