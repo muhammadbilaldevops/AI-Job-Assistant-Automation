@@ -29,7 +29,7 @@ Initial GitHub CI run 34714720615 passed. Vercel reported production deployment 
 |---|---|
 | GitHub | Repository access verified; final commit/push result recorded in the handoff |
 | Vercel | CLI user and free Hobby team verified; deployment result recorded in the handoff |
-| Make | Local adapter and scenario specification implemented; native account tools absent from this task, so account connection cannot be verified and no live scenario was created |
+| Make | Official connection verified; scenario 7386585 active; browser connection check and actual employer job round trip passed; 3 credits per observed successful run |
 | Supabase | Account listing worked; no projects present; no project was created |
 | Neon | Account listing worked; no project for this app was created or unrelated project modified |
 | Indeed Pakistan | Correct public site verified; human-operated search launch and real record capture implemented; no account connection, scraper or auto-submit |
@@ -40,3 +40,13 @@ Initial GitHub CI run 34714720615 passed. Vercel reported production deployment 
 The prototype is a functioning personal workbench, not the completed autonomous system. Automatic discovery of every Indeed vacancy, independent background company research, multi-user auth/storage, unattended applications and production service guarantees are not implemented. No fake online connection or successful application status stands in for those capabilities.
 
 Word export is an actual OOXML ZIP package. Office-suite pagination and all possible input lengths still require the user's final document preview. Structural checks are not a semantic fact checker or an ATS acceptance guarantee. The manual AI handoff and local-provider path must be described accurately in demonstrations.
+
+## Version 0.2 verification
+
+The current automated suite adds editable search validation, radius limits, custom title/city matching, remote opt-out, a real Word page-break check, and the research reader’s private-address/URL checks. The original preset checksum still passes.
+
+Browser checks confirmed a new relevant search survived reload, the Documents empty state and job selector rendered, and the local Make connection button returned its verified success message. Desktop and narrow layouts were inspected; the 390 px layout reported no horizontal document overflow.
+
+The reader successfully fetched a current official company page and returned its title, text and access time with verified=false. The real Vercel Greenhouse feed returned 86 published records during the check. A published cloud-security role was round-tripped through the local Make bridge with its original URL and full description unchanged; no candidate profile was sent and no job application was made.
+
+The two-page wrapper was tested at the OOXML level. No personalized final resume was authored or visually rendered in Word because candidate facts were not supplied. Page-count and content-quality guarantees cannot be inferred from package tests.

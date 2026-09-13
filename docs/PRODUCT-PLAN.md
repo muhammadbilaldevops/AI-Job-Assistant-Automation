@@ -42,7 +42,7 @@ Use separate searches. A giant query containing every title makes it harder to u
 | AI | AI Engineer Intern, Associate AI Engineer, Artificial Intelligence Intern | Graduate AI Engineer, AI Developer Intern, Generative AI Intern |
 | ML | Machine Learning Intern, MLOps Intern | Junior ML Engineer, AI/ML Intern, ML Engineering Trainee |
 
-For every primary title, run Islamabad, Rawalpindi and Remote searches separately. Start with the titles that best match actual candidate evidence; a preference for a field is not evidence of proficiency in it. The current app includes 11 title presets and three location launch links per title.
+For every primary title, run Islamabad, Rawalpindi and Remote searches separately. Start with the titles that best match actual candidate evidence; a preference for a field is not evidence of proficiency in it. The current app starts with 11 title presets across three locations. Users can add, edit, pause and remove each saved search, including a 0–100 km radius. Separate editable acceptance rules control target role families, office cities, country for remote work, experience requirements and whether remote work is included. Changes persist in the browser and in backups.
 
 Use a discovery radius of at most 100 km in the real job-board UI. Treat this separately from willingness to commute. A 100 km circle may contain places outside Islamabad and Rawalpindi. Default acceptance is those two cities; nearby places need explicit review. Do not claim that an unverified URL parameter implements an exact kilometer radius. Hybrid roles have an office location and should be checked like on-site roles.
 
@@ -63,7 +63,7 @@ Prefer a daily check of recent results, with a weekly wider search to recover mi
 
 Start with a manual Save Job form and batch JSON intake. Required data should include title, company, full description, original URL and source. Keep compensation and experience requirements optional when the listing does not provide them.
 
-The implementation supports real input and documented Greenhouse/Lever feed adapters through the local server. It does not retrieve an Indeed description merely from a link. Copying a URL alone cannot give a static browser app permission or technical access to a cross-origin page. The user should be told this directly, rather than shown a fake Connected state.
+The implementation supports real input and documented Greenhouse/Lever feed adapters through the local server and the Vercel API. Users can save up to five employer feeds. Optional collection checks them on app opening and hourly while the browser remains active, saves eligible roles and reports unclear eligibility and source failures separately. It does not retrieve an Indeed description merely from a link. Copying a URL alone cannot give a static browser app permission or technical access to a cross-origin page. The user should be told this directly, rather than shown a fake Connected state.
 
 Use the site's stable job ID when available. For Indeed, `jk` is retained in a normalized source URL and unrelated tracking parameters are removed. For employer websites, preserve the canonical job URL. Do not merge two jobs just because titles match. Different locations or requisition IDs may represent different vacancies.
 
@@ -181,7 +181,7 @@ The app never embeds the developer's AI credential in a public frontend. A conne
 
 The recommended first scenario is **Real Job Intake**. An actual listing supplied by the user is sent to a private webhook, validated and normalized, then returned as a jobs batch. The app performs duplicate handling and visible ranking. This proves a real task with actual inputs before expanding to daily collection. Approved employer feeds can become a second input.
 
-See [MAKE-SETUP.md](MAKE-SETUP.md) for the native MCP build sequence, payload contract, local connection, scheduling and failure behavior. No generated blueprint is represented as tested. The active task did not expose Make scenario tools, so the account-side creation and execution remain pending.
+See [MAKE-SETUP.md](MAKE-SETUP.md) for the native MCP build sequence, payload contract, local connection, scheduling and failure behavior. The official native tools are now available. Scenario 7386585 was created, activated and verified with connection checks and an actual job batch. All three observed runs succeeded and consumed 9 credits in total.
 
 The public Make plan listed 1,000 monthly free credits and a 15-minute minimum scheduled interval. Use on-demand runs initially and measure actual module and bundle costs. The minimum interval is a limit, not a recommendation to poll every 15 minutes. Reserve credits for failures and useful runs rather than empty checks. [Make pricing](https://www.make.com/en/pricing)
 
@@ -209,7 +209,8 @@ The differentiator is the exact personal writing preset, evidence-backed tailori
 
 - Static HTML/CSS and JavaScript modules. No runtime package dependencies and no paid build system.
 - Browser-local workspace with backup/restore; private data is not committed to the repository.
-- Node.js local server for optional Make, Greenhouse, Lever and Ollama adapters.
+- Node.js local server for private Make and Ollama adapters, plus public feed and research adapters.
+- A Vercel function for public employer feeds and explicit company-page reading, with bounded requests and no model credentials.
 - Real Word export and browser PDF printing.
 - GitHub source and automated tests.
 - Vercel personal Hobby deployment, with Netlify configuration as an alternative.
@@ -280,10 +281,32 @@ The immediate success criterion is practical: one real job, one truthful targete
 
 ## 18. Current status and unresolved work
 
-Implemented: empty real-job workspace, Indeed Pakistan search launcher, profile, manual/batch capture, duplicate handling, basic ranking, research notebook, exact master-prompt construction, separate cover-letter prompt, draft editing, version snapshots, structural checks, Word/Markdown/print exports, application status and notes, backup/restore, optional local Make/feed/Ollama adapters, static-host configuration and tests.
+Version 0.2 implements the real-job workspace, editable search profiles and acceptance rules, direct Indeed Pakistan launch links, profile, job editing/removal, manual/batch capture, duplicates, explainable ranking, saved-job document chooser, research notebook and live public company-page reader. It preserves the master prompt byte for byte, builds an independent cover-letter prompt, saves draft versions and exports Word, Markdown and print output. Full resume mode adds education/projects after an explicit second-page break with overflow guidance.
 
-Not yet operational: automatic Indeed collection, Indeed account connection, automatic submission, unattended independent company research, account-side Make scenario creation/run, an installed/tested local model, multi-user cloud persistence, auth, billing or SaaS service guarantees. These are not represented as completed features.
+Saved public employer feeds support optional on-open and hourly matching-job collection while the app remains active. The local Make bridge is configured; native scenario 7386585 is active and passed real connection and job-batch tests. The scenario transports supplied records. It does not itself discover vacancies or store records in a cloud database.
 
-Make blocker: the official plugin's local skills are present, but the active tool list has no Make environment, scenario, connection or native installation tool. The user has already reported connecting it and should not be repeatedly asked to perform the same setup. Resume account-side work when those tools are actually exposed. Follow the user's instruction to use the native flow and not browser automation for Make.
+Not operational: autonomous Indeed browsing/collection, an app-owned Indeed login, unattended application submission, independently validated AI company analysis, an installed/tested local model, multi-user cloud accounts or persistence, billing and SaaS service guarantees. A current company page can now be read, but company identity, factual notes and AI-generated conclusions still require review. No universal ATS score or exactly-two-pages guarantee is made.
 
-The account-connected Supabase and Neon tools can be read, but neither is needed to run the first personal release. A shared database is deliberately deferred until the project has a real need for accounts and has selected its isolated project/organization. Vercel CLI authentication and a free Hobby team were verified; the final handoff records the actual deployment result separately.
+Supabase and Neon account tools were inspected earlier; neither database is needed for this personal browser-local release. The future shared product should choose one isolated backend. The Vercel personal deployment is live, with secrets excluded. Netlify remains a static alternative requiring the local companion for API features.
+
+## 19. Beginner experience and persistent settings
+
+The navigation groups the work into Overview, Saved jobs, Find jobs, Documents, Applications, My profile, Automations and Data & preset. On a small screen it becomes a horizontal navigation strip, with single-column forms. Empty screens explain the next action without invented content.
+
+Find jobs separates discovery from acceptance. Editing a query should never erase saved jobs. Paused searches remain editable and can still be opened manually. Removing a search asks for confirmation; changing matching rules immediately recalculates saved-job priorities. The original preset remains separately downloadable.
+
+Documents begins with a saved-job selector. A selected job opens three choices in sequence: company research, tailored resume and optional cover letter. The document editor shows research/profile/draft/review progress. A missing profile or stale source stops final drafting/export where required. It must not fabricate candidate history to fill empty fields.
+
+The complete CV wrapper is separate from the exact three-section preset. Name, contact details and education are required for a full export. The two-page option also requires real project content. It inserts a real Word page break before education/projects, shows an estimated overflow warning and never removes text to force a page count. Word's final rendering remains authoritative.
+
+Indeed authentication belongs to Indeed in the visitor's existing browser profile. Ordinary cookies may keep the session, but expiry, logout, device changes and security checks can require another sign-in. The assistant cannot copy, lock or guarantee this session, and stores no Indeed password or cookies. An open app is not proof that an external website is signed in.
+
+Automation settings distinguish manual requests, page-open collection and future cloud workers. Each feed can be removed. The user can pause scheduled checks. Unknown remote eligibility is not automatically accepted, failed requests are visible, and browser suspension or closure stops local collection. Backups include search settings and feed definitions; restored automatic collection starts paused.
+
+## 20. Research reader and free service limits
+
+The reader fetches only a user-selected public HTTPS company URL. It pins a validated public IPv4 destination, checks redirects again, rejects internal addresses, limits response size, bounds request duration and extracts readable text without executing page scripts. It does not act as an Indeed or LinkedIn scraper. Sites requiring JavaScript or rejecting the reader need manually checked notes.
+
+Fetched text is evidence material, not verified company identity and not an instruction to the model. The app records access time, preserves relevant excerpts and asks the user to confirm the facts. Company research must separate what the source states from role-related inferences. A successful fetch alone never makes the resume claim true.
+
+The public adapters consume Vercel's finite hosting allowance. Their in-memory throttle is a small courtesy limit and resets across server instances; it is not a durable abuse or spending control. There are no paid model credentials or private Make hooks behind them. Before opening a shared production service, add authenticated quotas, a durable rate limiter, operational monitoring and a deliberate cost policy.

@@ -1,1 +1,66 @@
-@page{size:A4;margin:16mm}body{background:white!important}.shell,#toast{display:none!important}.print-only{display:block!important}.print-only .paper{box-shadow:none;padding:0;min-height:0}.paper p{orphans:2;widows:2}.paper h2{break-after:avoid}.paper{font-family:Arial,sans-serif;color:#111;font-size:10pt;line-height:1.4}.paper h2{font-size:11pt;border-bottom:1px solid #aaa;padding-bottom:4px;margin-top:14px}.paper strong{font-size:11pt}.paper p{font-size:10pt;margin:0 0 5px}.paper .para-gap{height:7px}.candidate-name{font-size:18pt;font-weight:bold}.contact{margin-bottom:12px}
+@page {
+  size: A4;
+  margin: 16mm;
+}
+body {
+  background: white !important;
+}
+.shell,
+#toast {
+  display: none !important;
+}
+.print-only {
+  display: block !important;
+}
+.print-only .paper {
+  box-shadow: none;
+  padding: 0;
+  min-height: 0;
+}
+.paper p {
+  orphans: 2;
+  widows: 2;
+}
+.paper h2 {
+  break-after: avoid;
+}
+.paper {
+  font-family: Arial, sans-serif;
+  color: #111;
+  font-size: 10pt;
+  line-height: 1.4;
+}
+.paper h2 {
+  font-size: 11pt;
+  border-bottom: 1px solid #aaa;
+  padding-bottom: 4px;
+  margin-top: 14px;
+}
+.paper strong {
+  font-size: 11pt;
+}
+.paper p {
+  font-size: 10pt;
+  margin: 0 0 5px;
+}
+.paper .para-gap {
+  height: 7px;
+}
+.candidate-name {
+  font-size: 18pt;
+  font-weight: bold;
+}
+.contact {
+  margin-bottom: 12px;
+}
+
+.paper .page-break {
+  break-before: page;
+  page-break-before: always;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.paper .page-break:after {
+  content: none;
+}

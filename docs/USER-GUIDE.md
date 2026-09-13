@@ -8,19 +8,19 @@ The original master prompt can be read or downloaded from Data & preset. The app
 
 ## Find and save actual openings
 
-Search planner opens `https://pk.indeed.com/` search pages. It does not sign you in, set an unverified radius, scrape pages or collect every result automatically. In Indeed, choose at most 100 km, check the actual office location, sort by newest where available, and open one role at a time.
+Find jobs lets you add, edit, pause and remove saved titles and locations. Matching rules let you change accepted cities, country and experience limits. Your choices survive reload. It opens `https://pk.indeed.com/` search pages. It does not sign you in, set an unverified radius, scrape pages or collect every result automatically. In Indeed, choose at most 100 km, check the actual office location, sort by newest where available, and open one role at a time.
 
 Copy its original link and full description to Save a job. Use unknown dates when no date is given. For remote work, read the country restriction before choosing Pakistan or Worldwide. Saving a role does not mean you qualify; the score only helps prioritize review.
 
 ## Prepare the packet
 
-Open the saved job and add source notes from the official company site or careers page. Confirm that you actually checked each source. The app requires a recent verified note before building a company-researched prompt.
+Open Documents, select a saved job, and choose Company research. Enter a company URL and use Read this company page to fetch current readable text. Check its identity, then add source notes from the official company site or careers page. Confirm that you actually checked each source. The app requires a recent verified note before building a company-researched prompt.
 
 Copy the generation prompt into the AI chat you already use. If it can browse, ask it to verify current official company sources. Keep extra analysis or research notes in the workspace and paste only the three final resume sections into the resume editor. The editor handles bold and italic Markdown. Do not paste an entire explanation around the resume.
 
 Save a version after an important revision. Check formatting; confirm facts yourself. A structural pass cannot establish that the employer research or candidate claims are true. Editing either document invalidates the review checkbox.
 
-Use sections-only output to follow the original preset. Select full-resume export if you also want your profile's name, contact details, education and projects. The latter fields are included as supplied, not automatically rewritten. Fill out contact details before exporting a full resume.
+Use sections-only output to follow the original preset. Select full-resume export if you also want your profile's name, contact details, education and projects. The latter fields are included as supplied, not automatically rewritten. Fill out name, contact details and education before exporting a full resume. Two-page layout also needs real project content and starts education/projects on page 2. Long content may overflow: use the guidance and inspect the actual Word page count.
 
 Download Word for an editable document. Print / Save as PDF opens your browser's print flow: choose Save as PDF, use A4 and inspect every page. The browser may require switching off its header/footer URL display. Nothing sends the exported document to an employer until you choose to apply.
 
@@ -32,9 +32,9 @@ Open the original live listing and verify that it still accepts applications. Re
 
 ## Make and local AI
 
-The public static app can run capture, editing, validation and exports. It cannot reach a local model on your PC through the site's own server. Run the local companion for optional adapters.
+The public Vercel app can run capture, editing, validation, exports, live company-page reading and public employer-feed imports. It cannot reach a local model on your PC through the site's own server. Run the local companion for optional adapters.
 
-Send this job to Make transmits the selected job's title, employer, URL, description and location metadata to the configured private scenario. It excludes your candidate profile. The scenario must be created and configured first; otherwise the app shows a setup error. Run Make intake is for a scenario that has approved source feeds configured and can return a jobs array without a supplied record.
+Send this job to Make transmits the selected job's title, employer, URL, description and location metadata to the configured private scenario. It excludes your candidate profile. The creator’s local scenario is configured and tested. New users must connect their own scenario. Check Make connection verifies the local bridge; it does not discover jobs. The public site cannot use the creator’s private hook.
 
 Ollama generation requires the local Ollama service and a downloaded model named in `.env`. The model does not gain internet research just because it can write. No local model was installed by this project. Use the manual prompt path whenever a local model is too slow or inaccurate.
 
@@ -42,4 +42,6 @@ Ollama generation requires the local Ollama service and a downloaded model named
 
 Use Export private backup regularly, especially before changing browsers, devices or domains. Backups contain your profile and drafts, so do not publish them to GitHub. Restore replaces this browser's workspace only after confirmation. Browser-local storage is not encrypted by this application and can be cleared by browser settings.
 
-There are no accounts or cross-device sync in v0.1. Each visitor starts with an empty private local workspace. If the page is moved to another domain, its browser storage is separate; export from the old domain and restore on the new one.
+In Automations, save an employer’s real Greenhouse or Lever board. Use Import for manual review to inspect all its listings, or Check feeds now to save only eligible matching roles. The optional on-open/hourly setting works while the page remains active. It stops when the browser closes and resumes when reopened. These feeds are supplementary to Indeed.
+
+There are no accounts or cross-device sync in v0.2. Each visitor starts with an empty private local workspace. If the page is moved to another domain, its browser storage is separate; export from the old domain and restore on the new one.

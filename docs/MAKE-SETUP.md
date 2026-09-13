@@ -1,98 +1,45 @@
-# First Make scenario: real job intake
+# Make real job intake
 
-Status: designed; not created or executed in the connected account. Make's plugin skills were installed, but no Make account/scenario tools were exposed to this task. Signing into the Make website and installing its plugin do not prove a successful MCP tool connection. No browser or direct-token workaround was used for Make.
+## Verified account connection
 
-## The first automation to build
+The official Make plugin is connected. The scenario **Applydesk · real job intake**, ID 7386585, was created in Muhammad's private space and activated on 13 September 2026. The account zone is eu1.make.com. No third-party credentials were needed for these built-in modules.
 
-**Name:** AI Job Assistant - Real Job Intake
+Open it in [Make](https://eu1.make.com/2772469/scenarios/7386585/edit). Access depends on your Make account. The secret webhook is stored only in the creator's local `.env` and is deliberately absent from this guide, the Git repository and the public site.
 
-**Purpose:** Accept real job records supplied by the user or a permitted source, normalize the batch, and return it to the application. It does not invent jobs, scrape Indeed, log into Indeed, or submit applications.
+## What the scenario actually does
 
-For the user's primary Indeed workflow, intake starts with an actual description and its `https://pk.indeed.com/` job link. An authorized native Indeed connector, if available to the account, can become another input later. Do not assume that Make's HTTP module or a generic browser connection is an authorized Indeed connector.
+1. **Custom webhook** receives a request from Applydesk.
+2. **Transform to JSON** encodes the supplied jobs, request ID and processing timestamp.
+3. **Webhook response** sends that batch back to the application.
 
-## Native MCP build procedure
+The local app validates title, employer, URL and description before sending. The app merges returned jobs by source URL and preserves saved application progress. This first scenario is an integration bridge. It does not discover new jobs, rank them, write to a cloud database, research companies, sign in to Indeed or submit applications.
 
-Once Make tools are exposed, use the installed Make reference, building and operations skills. Do not invent module IDs or import an unverified blueprint.
+The trigger runs only when requested. It has no recurring empty polls. A verified execution used 3 credits for 3 module operations. The Free plan has finite credits; check your account before extending or scheduling it. [Make pricing](https://www.make.com/en/pricing)
 
-1. Read the environment and find the user's private space/team and current subscription limits.
-2. List relevant scenarios and reuse an existing matching scenario rather than duplicating it.
-3. Find modules for receiving a custom webhook, normalizing a JSON payload, and responding to a webhook. Resolve exact names with `app_find`.
-4. Read all module specifications together. Reuse existing connections, if any are required. This basic flow should not need an OpenAI, Gmail or database connection.
-5. Prefer a user-triggered webhook over frequent polling. It has no background empty checks and no historical mailbox backfill.
-6. If the webhook payload is learned, create only the trigger first, receive a real test job, inspect its detected fields, then patch the complete downstream flow. Do not guess learned field names.
-7. Validate required title, company, original URL and description; return a clear error for incomplete input. Keep uncertain location and dates marked unknown.
-8. Return `Content-Type: application/json` and a `jobs` array. Keep the response within the local adapter's 40-second timeout.
-9. Keep scheduling inactive until the actual request and response mapping have been tested. Activate only the verified, requested flow. Do not enable bulk applications or email sending.
-10. Inspect the execution result and verify the job appears in the app exactly once. Record actual credits consumed, scenario URL and execution ID in a private run log.
+## Evidence from the actual build
 
-This procedure is a build specification, not an importable Make blueprint. An exported blueprint belongs in this folder only after its real module configuration has been created and tested.
+The native environment, app discovery and module specification tools were used before authoring. The generic webhook learned a real connection-check request containing the requested search families and locations, with an empty jobs array. Its detected fields were inspected before downstream mapping was added.
 
-## Input and output contract
+Execution `889bdf8b62a6445d8f6a01b09fe026d0` succeeded in 138 ms and used 3 credits. A later browser check verified the local app's Check Make connection button. A real published Vercel employer-feed record was then sent through `/api/make`; its URL and complete description were returned unchanged. This was an integration test, not a recommended Pakistan job or an application submission.
 
-Field names below are application fields, not guessed Make module identifiers.
+## Use it from your local app
 
-```json
-{
-  "action": "collect_jobs",
-  "requestId": "unique-id-for-this-request",
-  "jobs": [
-    {
-      "title": "<actual advertised title>",
-      "company": "<actual employer>",
-      "url": "<actual job URL>",
-      "description": "<complete real description>",
-      "location": "<actual location or Unknown>",
-      "mode": "On-site",
-      "remoteEligibility": "Unknown",
-      "postedAt": "",
-      "source": "Indeed Pakistan - user supplied"
-    }
-  ]
-}
-```
+Start the repository with `npm start`. The command reads `.env` when present. Open the local address shown in the terminal.
 
-The response is `{ "jobs": [...] }`. The placeholders above explain the schema and are not vacancies. Reject them in real runs. No profile or contact details are required for job intake.
+- In Automations, **Check Make connection** sends an empty connection check and reports success only after validating the response. It does not claim jobs were found.
+- Open a saved real job and choose **Send this job to Make** to send its listing fields. Your candidate profile, contact details, resume and cover letter are excluded.
+- Wait at least one minute between requests. The local server enforces this small usage guard.
 
-## Local app wiring
+The public Vercel app intentionally cannot invoke the creator's private Make webhook. A public unprotected bridge would let any visitor consume the creator's Make allowance. Shared SaaS access needs authenticated users, per-user connections and durable usage limits first.
 
-Copy `.env.example` to `.env` and set `MAKE_WEBHOOK_URL` privately after Make returns the actual URL. Do not send the webhook URL to GitHub or paste it into a public frontend. Start the app with:
+## Contract
 
-```powershell
-node --env-file=.env server.mjs
-```
+Requests have `action`, `requestId` and `jobs`. `connection_check` uses an empty list; `normalize_jobs` carries up to 20 validated real listings. Responses contain `jobs`, `requestId`, `processedAt` and a source label. The transport preserves data; despite the historical action name, the Make modules do not perform semantic normalization.
 
-The local app supports two deliberate calls:
+The adapter accepts only official regional HTTPS Make hook destinations, imposes request/response limits, blocks cross-origin local requests and times out after 40 seconds. No automatic retry is sent. If a request times out, inspect the Make run before trying again because the first request may have succeeded.
 
-- **Run Make intake:** sends an empty collection request for a scenario configured with approved feeds.
-- **Send this job to Make:** sends the selected real listing to a job-intake scenario. No candidate profile is included.
+## Extending the flow later
 
-Choose one corresponding scenario contract for the configured URL. Sending an empty collection request to a job-input-only scenario should return a clear missing-input error, not generate example jobs.
+Add only source methods that permit automated access. Public employer feeds already work directly through the application, including matching and saving while its page is open. For cloud collection while the browser is closed, first add a separate database with authenticated owner records, idempotency keys, run history and quotas. Then let Make write permitted source results to that backend.
 
-The local server allows only regional HTTPS `hook.<region>.make.com` destinations. The browser calls the same-origin local server; Make never calls `localhost` on the user's PC. Static hosting cannot run this local server. A production version needs an authenticated server endpoint and per-user limits before exposing any webhook-backed function.
-
-## Optional second source
-
-An employer's documented Greenhouse or Lever job feed can supply real published jobs. Configure only a board token found on that employer's real careers page. Public listing reads and application submission have different permissions. Do not use employer application API credentials that the user does not possess. Preserve source URL and observed time; Greenhouse `updated_at` must not be relabeled as original publication time.
-
-## Credit budget
-
-Make's public pricing listed 1,000 free credits per month and a 15-minute minimum scheduled interval when researched. Different modules can consume different amounts. Treat all calculations below as estimates to validate against actual execution history.
-
-- One trigger check every 15 minutes could be 96 checks/day, approximately 2,880/month before any useful processing if that trigger bills each check.
-- A single daily check is about 30 checks/month.
-- A 4-credit batch, twice a day for 30 days, is approximately 240 credits before other modules and retries.
-- Per-item modules multiply cost by the number of bundles. A 100-job feed does not necessarily cost the same as a 1-job feed.
-
-Start with on-demand runs, retain a credit reserve, and stop rather than upgrade automatically. Make AI features may consume token-based credits; do not insert them under the assumption that a ChatGPT subscription pays for them.
-
-## Failure behavior
-
-- Empty results: return an empty array with successful source status; do not fabricate jobs.
-- Authentication or permissions error: stop and show the native reconnect flow when available.
-- Rate limit: obey `Retry-After`; do not loop aggressively.
-- Timeout: mark the outcome unknown and check execution history before retrying a write.
-- Duplicate response: merge by canonical source URL; preserve application status and document versions.
-- Unsupported source: show the source error separately from an empty successful search.
-- Captcha or login challenge on a job board: hand back to the user. No bypass or account rotation.
-
-Sources: [Make pricing](https://www.make.com/en/pricing), [Make credits](https://help.make.com/credits), [Greenhouse Job Board API](https://docs.greenhouse.io/job-board.html), [Lever Postings API](https://github.com/lever/postings-api).
+To reuse the design in another account, discover actual module specifications through the native Make tools, create the webhook trigger, inspect a real request, then map and test the downstream modules. Do not copy this account's hook, connection IDs or private data. Never treat generic browser control or an HTTP module as an authorized Indeed integration.
