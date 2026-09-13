@@ -678,11 +678,11 @@ root.addEventListener("submit", async (ev) => {
     if (form.id === "preferences") {
       const p = {
         ...DEFAULT_PREFERENCES,
-        titles: values.titles
+        titles: String(values.titles || "")
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean),
-        cities: values.cities
+        cities: String(values.cities || "")
           .split("\n")
           .map((s) => s.trim())
           .filter(Boolean),
