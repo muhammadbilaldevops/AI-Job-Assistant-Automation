@@ -1165,6 +1165,9 @@ li {
   font-size: 25px;
   margin-top: 23px;
 }
+.auth-modes { display:flex; gap:8px; margin:22px 0 4px; padding:4px; background:#f0f4eb; border-radius:10px; }
+.auth-mode { flex:1; border:0; border-radius:7px; padding:11px 8px; background:transparent; color:#6d8064; font:600 12px inherit; cursor:pointer; }
+.auth-mode.selected { background:#fff; color:#1d593e; box-shadow:0 2px 8px #315c3014; }
 .auth-card p {
   font-size: 12px;
 }
