@@ -50,3 +50,12 @@ Browser checks confirmed a new relevant search survived reload, the Documents em
 The reader successfully fetched a current official company page and returned its title, text and access time with verified=false. The real Vercel Greenhouse feed returned 86 published records during the check. A published cloud-security role was round-tripped through the local Make bridge with its original URL and full description unchanged; no candidate profile was sent and no job application was made.
 
 The two-page wrapper was tested at the OOXML level. No personalized final resume was authored or visually rendered in Word because candidate facts were not supplied. Page-count and content-quality guarantees cannot be inferred from package tests.
+
+
+### Published release check
+
+Commit 7688d9474f86551491a9e0ac57f65ba3a9167233 passed GitHub CI run 34741436482. Vercel production deployment dpl_6ZQJkdPkPk1de8UW2QQnTs7VTvSS reported READY with the public source API deployed. The stable public URL loaded version 0.2 in the browser.
+
+The production reader successfully retrieved GitLab's official company page (2,795 readable characters, access time recorded, unverified until reviewed). Make's company page returned HTTP 403 from the hosted reader, which was surfaced accurately; no bypass was attempted. An immediate second API request was rate limited as expected. After the limit interval, the public Vercel employer feed returned 86 real records. This is source functionality evidence, not 86 jobs matching the user's eligibility.
+
+Three Make executions succeeded, using 9 credits total. The real-listing run was 9b2144ce003c4df888e23ab9aa04abc0. No applications, paid subscriptions, cloud candidate database or installed local language model were created.
