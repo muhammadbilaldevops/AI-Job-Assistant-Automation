@@ -618,7 +618,12 @@ root.addEventListener("click", async (ev) => {
       toast("Old data imported. Please review your profile.");
     }
   } catch (err) {
-    error = err.message;
+    const message = String(err.message || err);
+    error = /rate limit|email rate limit/i.test(message)
+      ? "Email delivery is temporarily rate-limited by Supabase. Wait a few minutes, then use Sign in if this account was already confirmed."
+      : /email not confirmed/i.test(message)
+        ? "Confirm your email from the latest message, then use Sign in."
+        : message;
   } finally {
     busy = false;
     render();
