@@ -24,7 +24,7 @@ let session,
   authMode = "signup",
   filter = "all";
 let booting = true;
-const AUTH_ENABLED = false;
+const AUTH_ENABLED = true;
 const icons = {
   dashboard: "▦",
   profile: "◎",
