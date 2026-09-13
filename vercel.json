@@ -1,7 +1,7 @@
 {
   "outputDirectory": "dist",
   "buildCommand": "npm run build && npm run check",
-  "functions": {"api/agent.js": {"maxDuration": 180}},
+  "functions": {"api/agent.js": {"maxDuration": 180, "includeFiles": ["node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"]}},
   "headers": [{ "source": "/(.*)", "headers": [
     {"key":"X-Content-Type-Options","value":"nosniff"},
     {"key":"Referrer-Policy","value":"no-referrer"},
