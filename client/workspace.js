@@ -770,7 +770,8 @@ root.addEventListener("change", async (ev) => {
       });
       const result = await api("parse", { name: file.name, base64 });
       // Preserve original text. Suggestions are editable and never silently confirmed.
-      const lines = result.text
+      const extractedText = String(result.text || "");
+      const lines = extractedText
         .split("\n")
         .map((s) => s.trim())
         .filter(Boolean);
@@ -778,7 +779,7 @@ root.addEventListener("change", async (ev) => {
       if (!suggestion.name && lines[0]?.length < 80) suggestion.name = lines[0];
       if (!suggestion.contact)
         suggestion.contact = (
-          result.text.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g) || []
+          extractedText.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g) || []
         ).join(" | ");
       for (const [key, pattern] of [
         [
